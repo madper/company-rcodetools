@@ -3,7 +3,8 @@
   (interactive (list 'interactive))
   (case command
     (interactive (company-begin-backend 'company-rcodetools))
-    (prefix (and (rct-exec-and-eval rct-complete-command-name "--completion-emacs-icicles")
+    (prefix (and (condition-case x (rct-exec-and-eval rct-complete-command-name "--completion-emacs-icicles")
+		    ((error) (setq rct-method-completion-table nil)))
 		 (company-grab-symbol)))
     (candidates (mapcar
 		 (lambda (completion)
